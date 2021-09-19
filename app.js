@@ -8,7 +8,7 @@ const env = "mainnet";
 const chainId = 42161;
 const mainSymbol = "ETH";
 const etherscanUrl = "https://arbiscan.io";
-const contractAddress = "0x06c28ae8efa979cacbf476fbf558a18938dd7b5f";
+const contractAddress = "0x2706c254a64De1B34499810a3CD3fd2098078cbF";
 
 const price = 0.1;
 
@@ -633,6 +633,10 @@ window.onload = () => {
     document.getElementById("content-introduce-detail").innerHTML = "We have converted the original etherrock contract to ERC721 standards. Be sure you are connected to the Arbitrum One Network."
   };
 
+  const getTotalPrice = (price,inputValue)=>{
+    return new Decimal(inputValue).mul(price).toString();
+  } 
+
   const switchNetwork = async () => {
     if (env === "test") {
       window?.ethereum
@@ -698,7 +702,7 @@ window.onload = () => {
         const signer = await provider.getSigner();
         const account = await signer.getAddress();
         if (!inputValue || Math.round(inputValue) !== Number(inputValue)) {
-          document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+          document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
           return $.toast({
             heading: "Error",
             text: "Enter an integer！",
@@ -707,7 +711,7 @@ window.onload = () => {
             icon: "error",
           });
         } else if (Number(inputValue) > 10) {
-          document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+          document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
           return $.toast({
             heading: "Error",
             text: "Max amount 10！",
@@ -721,7 +725,7 @@ window.onload = () => {
         const balanceRaw = await provider.getBalance(account);
         const balance = ethers.utils.formatUnits(balanceRaw, 18);
         if (Number(balance) < price * inputValue) {
-          document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+          document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
           return $.toast({
             heading: "Error",
             text: "Insufficient balance！",
@@ -756,11 +760,11 @@ window.onload = () => {
           position: "top-center",
           icon: "success",
         });
-        document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+        document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
         window.open(`${etherscanUrl}/${result.transactionHash}`);
       } catch (e) {
         console.error("e", e);
-        document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+        document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
         if (e?.data?.message?.includes("Token is not enough")) {
           return $.toast({
             heading: "Error",
@@ -810,7 +814,7 @@ window.onload = () => {
         const signer = await provider.getSigner();
         const account = await signer.getAddress();
         if (!inputValue || Math.round(inputValue) !== Number(inputValue)) {
-          document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+          document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
           return $.toast({
             heading: "Error",
             text: "Enter an integer！",
@@ -819,7 +823,7 @@ window.onload = () => {
             icon: "error",
           });
         } else if (Number(inputValue) > 10) {
-          document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+          document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
           return $.toast({
             heading: "Error",
             text: "Max amount 10！",
@@ -833,7 +837,7 @@ window.onload = () => {
         const balanceRaw = await provider.getBalance(account);
         const balance = ethers.utils.formatUnits(balanceRaw, 18);
         if (Number(balance) < price * inputValue) {
-          document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+          document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
           return $.toast({
             heading: "Error",
             text: "Insufficient balance！",
@@ -868,11 +872,11 @@ window.onload = () => {
           position: "top-center",
           icon: "success",
         });
-        document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+        document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
         window.open(`${etherscanUrl}/${result.transactionHash}`);
       } catch (e) {
         console.error("e", e);
-        document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+        document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
         if (e?.data?.message?.includes("Token is not enough")) {
           return $.toast({
             heading: "Error",
@@ -903,14 +907,14 @@ window.onload = () => {
 
   $("#amount-input").on("input propertychange", () => {
     var inputValue = document.getElementById("amount-input").value;
-    document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
-    document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+    document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
+    document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
     document.getElementById("amount-input-mobile").value = inputValue;
   });
   $("#amount-input-mobile").on("input propertychange", () => {
     var inputValue = document.getElementById("amount-input-mobile").value;
-    document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
-    document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? price * inputValue : price} ${mainSymbol})`;
+    document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
+    document.getElementById("mint-button-mobile").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
     document.getElementById("amount-input").value = inputValue;
   });
 };
