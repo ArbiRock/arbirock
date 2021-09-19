@@ -23,6 +23,7 @@ const testRpcUrls = "https://http-testnet.huobichain.com";
 
 
 let provider = null;
+let accountAddress;
 
 const abi = [
   {
@@ -614,7 +615,7 @@ window.onload = () => {
     }
     provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.send("eth_requestAccounts");
-    const accountAddress = accounts[0];
+    accountAddress = accounts[0];
     document.getElementById("address-button").innerHTML = `${accountAddress.slice(0, 4)}...${accountAddress.slice(accountAddress.length - 4, accountAddress.length)}`;
     document.getElementById("content-introduce-detail").innerHTML = "We have converted the original etherrock contract to ERC721 standards. Be sure you are connected to the Arbitrum One Network. We are in the process of making UI changes to the website."
     document.getElementById("copy-button").innerHTML = "COPY LINK";
@@ -761,7 +762,7 @@ window.onload = () => {
           icon: "success",
         });
         document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
-        window.open(`${etherscanUrl}/${result.transactionHash}`);
+        window.open(`${etherscanUrl}/token/${contractAddress}?a=${accountAddress}`);
       } catch (e) {
         console.error("e", e);
         document.getElementById("mint-button").innerHTML = `MINT (${inputValue ? getTotalPrice(price,inputValue) : price} ${mainSymbol})`;
