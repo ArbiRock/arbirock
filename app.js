@@ -8,7 +8,7 @@ const env = "mainnet";
 const chainId = 42161;
 const mainSymbol = "ETH";
 const etherscanUrl = "https://arbiscan.io";
-const contractAddress = "0x06c28ae8efa979cacbf476fbf558a18938dd7b5f";
+const contractAddress = "0x2706c254a64De1B34499810a3CD3fd2098078cbF";
 
 const price = 0.1;
 
